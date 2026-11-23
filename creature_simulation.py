@@ -17,8 +17,25 @@ class Creature:
 
     def __str__(self):
         return f"{self.name} (HP: {self.hp})"
+class FlyingCreature(Creature):
+    def __init__(self, name, hp, attack_power):
+        super().__init__(name, hp, attack_power)
+        self.altitude = 0
 
+    def fly_to(self, new_altitude):
+        self.altitude = new_altitude
+        print(f"{self.name} flies to {self.altitude} meters.")
+
+    def attack(self, target):
+        if not self.is_alive():
+            print(f"{self.name} cannot attack.")
+            return
+
+        print(f"{self.name} attacks {target.name} from above!")
+        target.hp = max(0, target.hp - self.attack_power)
+        print(f"{target.name} HP: {target.hp}")
 if __name__ == "__main__":
+    
     print("=== Creature Class Tests ===\n")
 
     # Test 1: Initialization
@@ -68,3 +85,12 @@ if __name__ == "__main__":
     print()
 
     print("=== Tests Completed ===")
+
+
+    print("\n=== FlyingCreature Test ===")
+
+    hawk = FlyingCreature("Sky Hawk", 50, 8)
+    dummy = Creature("Dummy", 40, 0)
+
+    hawk.fly_to(120)
+    hawk.attack(dummy)

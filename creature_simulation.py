@@ -34,6 +34,27 @@ class FlyingCreature(Creature):
         print(f"{self.name} attacks {target.name} from above!")
         target.hp = max(0, target.hp - self.attack_power)
         print(f"{target.name} HP: {target.hp}")
+
+
+class FireCreature(Creature):
+    def __init__(self, name, hp, attack_power):
+        super().__init__(name, hp, attack_power)
+        self.fire_level = 0
+
+    def emit_fire(self, new_fire_level):
+        self.fire_level = max(0, min(100, new_fire_level))
+        print(f"{self.name} fire level is {self.fire_level}.")
+
+    def attack(self, target):
+        if not self.is_alive():
+            print(f"{self.name} cannot attack.")
+            return
+
+        damage = self.attack_power + self.fire_level // 10
+
+        print(f"{self.name} uses fire attack on {target.name}!")
+        target.hp = max(0, target.hp - damage)
+        print(f"{target.name} HP: {target.hp}")        
 if __name__ == "__main__":
     
     print("=== Creature Class Tests ===\n")
@@ -94,3 +115,11 @@ if __name__ == "__main__":
 
     hawk.fly_to(120)
     hawk.attack(dummy)
+
+    print("\n=== FireCreature Test ===")
+
+    dragon = FireCreature("Fire Dragon", 100, 15)
+    dummy = Creature("Dummy", 50, 0)
+
+    dragon.emit_fire(60)
+    dragon.attack(dummy)
